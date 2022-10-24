@@ -1,9 +1,9 @@
 pipeline {
-    agent { docker { image 'maven:3.8.6-openjdk-11-slim' } }
+    agent { docker { image 'eclipse-temurin:11.0.16.1_1-jdk' } }
     stages {
         stage('build') {
             steps {
-                sh 'mvn --version'
+                sh 'java -version'
             }
         }
     }
