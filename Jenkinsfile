@@ -5,12 +5,16 @@ pipeline {
         }
     }
     
+    environment {
+        JMETER_OUT_DIR = '/tmp/jmeter-outputs'        
+    }
+    
     stages {
-        stage('build') {
+        stage('load-test') {
             steps {
-                sh 'jmeter --version'
-                sh 'mkdir -p /tmp/jmeter-outputs'
-                sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l /tmp/jmeter-outputs/test-result.jtl -e -o /tmp/jmeter-outputs/report'
+                sh 'mkdir -p ${JMETER_OUT_DIR}'
+                sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l ${JMETER_OUT_DIR}/test-result.jtl -e -o ${JMETER_OUT_DIR}/reports'
+                sh 'cat ${JMETER_OUT_DIR}/test-result.jtl'
             }
         }
     }
