@@ -1,9 +1,9 @@
-FROM eclipse-temurin:11.0.16.1_1-jdk
+FROM eclipse-temurin:11-jdk
 
 # JMeter Version
 ARG JMETER_VERSION="5.5"
 
-# Download and unpack the JMeter tar file
+# Download and extract the JMeter tar file
 RUN cd /opt \
  && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
  && tar xzf apache-jmeter-${JMETER_VERSION}.tgz \
