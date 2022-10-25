@@ -9,7 +9,8 @@ pipeline {
         stage('build') {
             steps {
                 sh 'jmeter --version'
-                sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l /tmp/jmeter/test-result.jtl -e -o /tmp/jmeter/report'
+                sh 'mkdir -p /tmp/jmeter-outputs'
+                sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l /tmp/jmeter-outputs/test-result.jtl -e -o /tmp/jmeter-outputs/report'
             }
         }
     }
