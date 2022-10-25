@@ -1,5 +1,5 @@
 # build on the top of Java image
-FROM java:8
+FROM eclipse-temurin:11.0.16.1_1-jdk
 # JMeter Version
 ARG JMETER_VERSION=”5.3"
 # Download and unpack the JMeter tar file
