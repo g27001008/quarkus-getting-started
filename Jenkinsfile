@@ -4,6 +4,7 @@ pipeline {
         stage('build') {
             steps {
                 sh 'java -version'
+                sh 'cat src/main/java/com/vilathi/GreetingResource.java'
             }
         }
     }
