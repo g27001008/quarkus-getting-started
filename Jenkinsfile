@@ -1,8 +1,10 @@
 pipeline {
-    agent { docker { image 'justb4/jmeter:latest' } }
-    environment {
-        @ = '-Dlog_level.jmeter=DEBUG -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx'
+    agent {
+        dockerfile {
+            filename 'src/test/jmeter/Dockerfile'
+        }
     }
+    
     stages {
         stage('build') {
             steps {
