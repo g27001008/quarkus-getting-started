@@ -1,10 +1,9 @@
 pipeline {
-    agent { docker { image 'eclipse-temurin:11.0.16.1_1-jdk' } }
+    agent { docker { image 'justb4/jmeter:latest' } }
     stages {
         stage('build') {
             steps {
-                sh 'java -version'
-                sh 'cat src/main/java/com/vilathi/GreetingResource.java'
+                sh 'java -version'                
             }
         }
     }
