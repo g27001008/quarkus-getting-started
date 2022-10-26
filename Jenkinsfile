@@ -6,8 +6,7 @@ pipeline {
     }
     
     environment {
-        JMETER_OUT_DIR = '/tmp/jmeter-outputs'        
-        WORKSPACE = pwd()
+        JMETER_OUT_DIR = pwd() + '/jmeter-outputs'        
     }
     
     stages {
@@ -15,24 +14,18 @@ pipeline {
             
             steps {
                 
-                //sh 'mkdir -p ${JMETER_OUT_DIR}'
-                //sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l ${JMETER_OUT_DIR}/test-result.jtl -e -o ${JMETER_OUT_DIR}/reports'
-                //sh 'cat ${JMETER_OUT_DIR}/test-result.jtl'
-                
-                sh 'echo "Hola mundo"'
-                sh 'echo ${WORKSPACE}'
-                sh 'echo "Chao mundo"'
+                sh 'mkdir -p ${JMETER_OUT_DIR}'
+                sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l ${JMETER_OUT_DIR}/test-result.jtl -e -o ${JMETER_OUT_DIR}/reports'
+                sh 'cat ${JMETER_OUT_DIR}/test-result.jtl'
                                                 
-                /*publishHTML target: [
+                publishHTML target: [
                         allowMissing: true,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
                         reportDir: '${JMETER_OUT_DIR}/reports',
                         reportFiles: 'index.html',
                         reportName: 'JMeter Report'
-                ]*/
-                
-                
+                ]
             }
         }
     }
