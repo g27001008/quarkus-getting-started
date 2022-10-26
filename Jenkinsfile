@@ -13,7 +13,8 @@ pipeline {
             
             environment {
                 JMETER_TEST_PLAN = "src/test/jmeter/TestQuarkusGettingStarted.jmx"
-                JMETER_OUT_DIR = "${WORKSPACE}/${BUILD_NUMBER}/jmeter-outputs"        
+                JOB_WORKSPACE = "${WORKSPACE}/${BUILD_NUMBER}"
+                JMETER_OUT_DIR = "${JOB_WORKSPACE}/jmeter-outputs"
             }
             
             steps {
@@ -27,10 +28,10 @@ pipeline {
                         keepAll: true,
                         reportDir: "${JMETER_OUT_DIR}/report",
                         reportFiles: "index.html",
-                        reportName: "JMeter_Report"
+                        reportName: "TestPlanReport"
                 ]
                 
-                sh "rm -rf ${JMETER_OUT_DIR}"
+                sh "rm -rf ${JOB_WORKSPACE}"
             }
         }
     }
