@@ -19,8 +19,9 @@ pipeline {
                 //sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l ${JMETER_OUT_DIR}/test-result.jtl -e -o ${JMETER_OUT_DIR}/reports'
                 //sh 'cat ${JMETER_OUT_DIR}/test-result.jtl'
                 
-                sh 'echo "Hola Mundo"'
+                sh 'echo "Hola mundo"'
                 sh 'echo ${WORKSPACE}'
+                sh 'echo "Chao mundo"'
                                                 
                 /*publishHTML target: [
                         allowMissing: true,
