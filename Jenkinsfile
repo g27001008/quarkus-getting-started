@@ -20,7 +20,6 @@ pipeline {
                 
                 sh "mkdir -p ${JMETER_OUT_DIR}"
                 sh "jmeter -n -t ${JMETER_TEST_PLAN} -l ${JMETER_OUT_DIR}/result.jtl -e -o ${JMETER_OUT_DIR}/report"
-                sh "rm -rf ${JMETER_OUT_DIR}"
                                                 
                 publishHTML target: [
                         allowMissing: true,
@@ -30,6 +29,8 @@ pipeline {
                         reportFiles: "index.html",
                         reportName: "JMeter_Report"
                 ]
+                
+                sh "rm -rf ${JMETER_OUT_DIR}"
             }
         }
     }
