@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('load-test') {
             steps {
-                workspace = pwd()
+                def workspace = pwd()
                 
                 //sh 'mkdir -p ${JMETER_OUT_DIR}'
                 //sh 'jmeter -n -t src/test/jmeter/TestQuarkusGettingStarted.jmx -l ${JMETER_OUT_DIR}/test-result.jtl -e -o ${JMETER_OUT_DIR}/reports'
