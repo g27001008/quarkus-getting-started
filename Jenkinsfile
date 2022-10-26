@@ -25,7 +25,7 @@ pipeline {
                         keepAll: true,
                         reportDir: "${JMETER_OUT_DIR}/reports",
                         reportFiles: "index.html",
-                        reportName: "JMeter Report"
+                        reportName: "JMeter_Report"
                 ]
             }
         }
