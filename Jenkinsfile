@@ -6,7 +6,7 @@ pipeline {
     }
     
     environment {
-        JMETER_OUT_DIR = pwd() + '/jmeter-outputs'        
+        JMETER_OUT_DIR = '${pwd()}/jmeter-outputs'
     }
     
     stages {
