@@ -6,8 +6,8 @@ pipeline {
     }
     
     environment {
-        WORKSPACE = pwd()
-        JMETER_OUT_DIR = "${WORKSPACE}/jmeter-outputs"
+        //WORKSPACE = pwd()
+        JMETER_OUT_DIR = "${WORKSPACE}/${BUILD_NUMBER}/jmeter-outputs"
     }
     
     stages {
