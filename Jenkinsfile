@@ -29,6 +29,7 @@ pipeline {
                 
                 script {                    
                     testScenarios.eachWithIndex{ scenario, index -> 
+                        index+=1
                         resultFile = "${JMETER_OUT_DIR}/result-${index}.jtl" 
                         reportDir = "${JMETER_OUT_DIR}/report-${index}"
                         reportName = "TestPlanReport-${index}"
