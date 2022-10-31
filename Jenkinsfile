@@ -20,7 +20,7 @@ pipeline {
             steps {
                 
                 sh "mkdir -p ${JMETER_OUT_DIR}"
-                sh "jmeter -n -t ${JMETER_TEST_PLAN} -l ${JMETER_OUT_DIR}/result.jtl -e -o ${JMETER_OUT_DIR}/report"
+                sh "jmeter -JnoThreads=50 -n -t ${JMETER_TEST_PLAN} -l ${JMETER_OUT_DIR}/result.jtl -e -o ${JMETER_OUT_DIR}/report"
                                                 
                 publishHTML target: [
                         allowMissing: true,
