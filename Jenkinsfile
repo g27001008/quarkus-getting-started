@@ -9,7 +9,7 @@ pipeline {
     agent none
     
     stages {
-        stage("load-test") {                    
+        stage("Load Testing") {                    
             agent {
                 dockerfile {
                     filename "Dockerfile"
@@ -27,29 +27,23 @@ pipeline {
                 
                 sh "mkdir -p ${JMETER_OUT_DIR}"
                 
-                script {
-                    
-                    stages {
-                        testScenarios.eachWithIndex{ scenario, index -> 
-                            stage("load-test-scenario${index}"){
+                script {                    
+                    testScenarios.eachWithIndex{ scenario, index -> 
+                        resultFile = "${JMETER_OUT_DIR}/result-${index}.jtl" 
+                        reportDir = "${JMETER_OUT_DIR}/report-${index}"
+                        reportName = "TestPlanReport-${index}"
 
-                                resultFile = "${JMETER_OUT_DIR}/result-${index}.jtl" 
-                                reportDir = "${JMETER_OUT_DIR}/report-${index}"
-                                reportName = "TestPlanReport-${index}"
+                        sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
 
-                                sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
-
-                                publishHTML target: [
-                                    allowMissing: true,
-                                    alwaysLinkToLastBuild: false,
-                                    keepAll: true,
-                                    reportDir: "${reportDir}",
-                                    reportFiles: "index.html",
-                                    reportName: "${reportName}"
-                                ]
-                            }
-                        }
-                    }
+                        publishHTML target: [
+                            allowMissing: true,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: "${reportDir}",
+                            reportFiles: "index.html",
+                            reportName: "${reportName}"
+                        ]                            
+                    }                    
                 }
                 
                 sh "rm -rf ${JOB_WORKSPACE}"
