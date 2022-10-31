@@ -20,7 +20,8 @@ pipeline {
             environment {
                 JMETER_TEST_PLAN = "src/test/jmeter/TestQuarkusGettingStarted.jmx"
                 JOB_WORKSPACE = "${WORKSPACE}/${BUILD_NUMBER}"
-                JMETER_OUT_DIR = "${JOB_WORKSPACE}/jmeter-outputs"                
+                JMETER_OUT_DIR = "${JOB_WORKSPACE}/jmeter-outputs"
+                S3_BUCKET = "s3://jmeter.reports"
             }
             
             steps {
@@ -42,7 +43,8 @@ pipeline {
                             secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]])
                         {
                             sh "echo $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY"
-                            sh "aws s3 ls --region=us-east-1"                            
+                            sh "aws s3 rm $S3_BUCKET//$JOB_NAME --recursive --region=us-east-1"
+                            sh "echo 'hello world' | aws s3 cp - $S3_BUCKET//$JOB_NAME/file.txt"
                         }                                                            
                     }                    
                 }
