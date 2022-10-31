@@ -9,8 +9,6 @@ RUN cd /opt \
  && unzip awscliv2.zip \
  && ./aws/install
 
-RUN aws --version
-
 # JMeter Version
 ARG JMETER_VERSION="5.5"
 
