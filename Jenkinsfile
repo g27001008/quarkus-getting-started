@@ -55,7 +55,7 @@ pipeline {
                                     </li>
                                 </ul>
                             </body>
-                            </html>
+                            </html>"""
                          
                         sh "cat << '</html>' > ${JMETER_OUT_DIR}/index.html ${html}"
                          
