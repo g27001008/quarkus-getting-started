@@ -21,7 +21,8 @@ pipeline {
                 JMETER_TEST_PLAN = "src/test/jmeter/TestQuarkusGettingStarted.jmx"
                 JOB_WORKSPACE = "${WORKSPACE}/${BUILD_NUMBER}"
                 JMETER_OUT_DIR = "${JOB_WORKSPACE}/jmeter-outputs"
-                S3_BUCKET = "s3://jmeter.reports"
+                AWS_S3_BUCKET = "s3://jmeter.reports"
+                AWS_REGION = "us-east-1"
             }
             
             steps {
@@ -35,7 +36,25 @@ pipeline {
                             accessKeyVariable: "AWS_ACCESS_KEY_ID",
                             secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]])
                      {
-                        sh "aws s3 rm ${S3_BUCKET}/${JOB_NAME} --recursive --region=us-east-1"
+                        sh "aws s3 rm ${S3_BUCKET}/${JOB_NAME} --recursive --region=${AWS_REGION}"                         
+                         
+                        html = """
+                            <!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title>${JOB_NAME} JMeter Reports</title>
+                            </head>
+                            <body>  
+                                <ul>
+                                    <li>
+                                        <a href="/${JOB_NAME}/${BUILD_NUMBER}-1/index.html">jmeter-report-${BUILD_NUMBER}-1</a>
+                                    </li>
+                                </ul>
+                            </body>
+                            </html>"""
                             
                         testScenarios.eachWithIndex { scenario, index -> 
                             index+=1
@@ -44,11 +63,10 @@ pipeline {
 
                             sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
                             
-                            sh "aws s3 sync ${reportDir} ${S3_BUCKET}/${JOB_NAME}/${BUILD_NUMBER}-${index} --region=us-east-1"
-                        }
+                            sh "aws s3 sync ${reportDir} ${AWS_S3_BUCKET}/${JOB_NAME}/${BUILD_NUMBER}-${index} --region=${AWS_REGION}"
+                        }                         
                          
-                         
-                         sh "echo '' | aws s3 cp - ${S3_BUCKET}/${JOB_NAME}/index.html"
+                        sh "echo ${html} | aws s3 cp - ${AWS_S3_BUCKET}/${JOB_NAME}/index.html"
                      }
                 }
                 
