@@ -28,24 +28,25 @@ pipeline {
                 sh "mkdir -p ${JMETER_OUT_DIR}"
                 
                 script {
-                    testScenarios.each{ scenario -> 
-                        echo "$scenario"
+                    testScenarios.eachWithIndex{ scenario, index -> 
+                        stage("load-test-scenario${index}")
+                        
+                        resultFile = "${JMETER_OUT_DIR}/result-${index}.jtl" 
+                        reportDir = "${JMETER_OUT_DIR}/report-${index}"
+                        reportName = "TestPlanReport-${index}"
+                            
+                        sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
+                        
+                        publishHTML target: [
+                            allowMissing: true,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: "${reportDir}",
+                            reportFiles: "index.html",
+                            reportName: "${reportName}"
+                        ]
                     }
                 }
-                
-                sh "jmeter -JnoThreads=5 -n -t ${JMETER_TEST_PLAN} -l ${JMETER_OUT_DIR}/result1.jtl -e -o ${JMETER_OUT_DIR}/report1"
-                                                
-                publishHTML target: [
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: "${JMETER_OUT_DIR}/report1",
-                        reportFiles: "index.html",
-                        reportName: "TestPlanReport1"
-                ]
-                
-                
-                
                 
                 sh "rm -rf ${JOB_WORKSPACE}"
             }
