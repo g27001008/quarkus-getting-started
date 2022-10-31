@@ -1,5 +1,13 @@
 FROM eclipse-temurin:11-jdk
 
+# Download, extract and install the AWS CLI installer
+RUN cd /opt \ 
+ && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && sudo ./aws/install
+
+RUN aws --version
+
 # JMeter Version
 ARG JMETER_VERSION="5.5"
 
