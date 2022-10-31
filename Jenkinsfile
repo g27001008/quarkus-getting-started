@@ -39,10 +39,10 @@ pipeline {
                             $class: "AmazonWebServicesCredentialsBinding",
                             credentialsId: "aws-s3-jenkins",
                             accessKeyVariable: "AWS_ACCESS_KEY_ID",
-                            secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]]) {
-                                sh "aws s3 ls --region=us-east-1"
-                            }
-                        }                                     
+                            secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]])
+                        {
+                            sh "aws s3 ls --region=us-east-1"
+                        }                                                            
                     }                    
                 }
                 
