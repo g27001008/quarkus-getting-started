@@ -1,4 +1,7 @@
-FROM eclipse-temurin:11-jdk
+FROM eclipse-temurin:11-jdk-jammy
+
+# Install unzip
+RUN sudo apt-get update && sudo apt install unzip
 
 # Download, extract and install the AWS CLI installer
 RUN cd /opt \ 
