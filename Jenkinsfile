@@ -44,7 +44,7 @@ pipeline {
 
                             sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
                             
-                            sh "aws s3 cp ${reportDir} ${S3_BUCKET}/${JOB_NAME}/${BUILD_NUMBER}-${index}"
+                            sh "aws s3 sync ${reportDir} ${S3_BUCKET}/${JOB_NAME}/${BUILD_NUMBER}-${index}"
                         }                    
                      }
                 }
