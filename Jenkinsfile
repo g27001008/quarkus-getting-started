@@ -36,7 +36,7 @@ pipeline {
                             accessKeyVariable: "AWS_ACCESS_KEY_ID",
                             secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]])
                      {
-                        sh "aws s3 rm ${AWS_S3_BUCKET}/${JOB_NAME} --recursive --region=${AWS_REGION}"                         
+                        sh "aws s3 rm ${AWS_S3_BUCKET}/${JOB_NAME} --recursive --region=${AWS_REGION}"
                          
                         html = """
                             <!DOCTYPE html>
@@ -54,7 +54,7 @@ pipeline {
                                     </li>
                                 </ul>
                             </body>
-                            </html>"""
+                            </html>EOF"""
                          
                         sh "cat << 'EOF' > ${JMETER_OUT_DIR}/index.html ${html}"
                          
