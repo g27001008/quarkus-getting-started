@@ -50,13 +50,13 @@ pipeline {
                             <body>  
                                 <ul>
                                     <li>
-                                        <a href="/${JOB_NAME}/${BUILD_NUMBER}-1/index.html">jmeter-report-${BUILD_NUMBER}-1</a>
+                                        <a href="/${AWS_S3_BUCKET}/${JOB_NAME}/${BUILD_NUMBER}-1/index.html">jmeter-report-${BUILD_NUMBER}-1</a>
                                     </li>
                                 </ul>
                             </body>
                             </html>"""
                          
-                        sh "cat << 'EOF' > ${JMETER_OUT_DIR}/index.html ${html} EOF"
+                        sh "cat << 'EOF' > ${JMETER_OUT_DIR}/index.html ${html}"
                          
                         testScenarios.eachWithIndex { scenario, index -> 
                             index+=1
