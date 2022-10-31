@@ -54,9 +54,9 @@ pipeline {
                                     </li>
                                 </ul>
                             </body>
-                            </html>EOF"""
+                            </html>
                          
-                        sh "cat << 'EOF' > ${JMETER_OUT_DIR}/index.html ${html}"
+                        sh "cat << '</html>' > ${JMETER_OUT_DIR}/index.html ${html}"
                          
                         testScenarios.eachWithIndex { scenario, index -> 
                             index+=1
