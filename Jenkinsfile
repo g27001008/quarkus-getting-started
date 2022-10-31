@@ -56,9 +56,8 @@ pipeline {
                             </body>
                             </html>"""
                          
-                        sh "echo ${html} > ${JMETER_OUT_DIR}/index.html"
-                        sh "cat ${JMETER_OUT_DIR}/index.html"
-                            
+                        sh "cat << 'EOF' > ${JMETER_OUT_DIR}/index.html ${html} EOF"
+                         
                         testScenarios.eachWithIndex { scenario, index -> 
                             index+=1
                             resultFile = "${JMETER_OUT_DIR}/result-sce-${index}.jtl" 
