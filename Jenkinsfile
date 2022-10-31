@@ -41,7 +41,7 @@ pipeline {
                             accessKeyVariable: "AWS_ACCESS_KEY_ID",
                             secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]])
                         {
-                            sh echo "$AWS_ACCESS_KEY_ID yyyyy $AWS_SECRET_ACCESS_KEY"
+                            sh "echo $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY"
                             sh "aws s3 ls --region=us-east-1"                            
                         }                                                            
                     }                    
