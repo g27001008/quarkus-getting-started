@@ -28,23 +28,26 @@ pipeline {
                 sh "mkdir -p ${JMETER_OUT_DIR}"
                 
                 script {
-                    testScenarios.eachWithIndex{ scenario, index -> 
-                        stage("load-test-scenario${index}"){
-                        
-                            resultFile = "${JMETER_OUT_DIR}/result-${index}.jtl" 
-                            reportDir = "${JMETER_OUT_DIR}/report-${index}"
-                            reportName = "TestPlanReport-${index}"
+                    
+                    stages {
+                        testScenarios.eachWithIndex{ scenario, index -> 
+                            stage("load-test-scenario${index}"){
 
-                            sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
+                                resultFile = "${JMETER_OUT_DIR}/result-${index}.jtl" 
+                                reportDir = "${JMETER_OUT_DIR}/report-${index}"
+                                reportName = "TestPlanReport-${index}"
 
-                            publishHTML target: [
-                                allowMissing: true,
-                                alwaysLinkToLastBuild: false,
-                                keepAll: true,
-                                reportDir: "${reportDir}",
-                                reportFiles: "index.html",
-                                reportName: "${reportName}"
-                            ]
+                                sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
+
+                                publishHTML target: [
+                                    allowMissing: true,
+                                    alwaysLinkToLastBuild: false,
+                                    keepAll: true,
+                                    reportDir: "${reportDir}",
+                                    reportFiles: "index.html",
+                                    reportName: "${reportName}"
+                                ]
+                            }
                         }
                     }
                 }
