@@ -20,15 +20,28 @@ pipeline {
             steps {
                 
                 sh "mkdir -p ${JMETER_OUT_DIR}"
-                sh "jmeter -JnoThreads=50 -n -t ${JMETER_TEST_PLAN} -l ${JMETER_OUT_DIR}/result.jtl -e -o ${JMETER_OUT_DIR}/report"
+                
+                sh "jmeter -JnoThreads=5 -n -t ${JMETER_TEST_PLAN} -l ${JMETER_OUT_DIR}/result1.jtl -e -o ${JMETER_OUT_DIR}/report1"
                                                 
                 publishHTML target: [
                         allowMissing: true,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: "${JMETER_OUT_DIR}/report",
+                        reportDir: "${JMETER_OUT_DIR}/report1",
                         reportFiles: "index.html",
-                        reportName: "TestPlanReport"
+                        reportName: "TestPlanReport1"
+                ]
+                
+                
+                sh "jmeter -JnoThreads=10 -n -t ${JMETER_TEST_PLAN} -l ${JMETER_OUT_DIR}/result2.jtl -e -o ${JMETER_OUT_DIR}/report2"
+                                                
+                publishHTML target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: "${JMETER_OUT_DIR}/report2",
+                        reportFiles: "index.html",
+                        reportName: "TestPlanReport2"
                 ]
                 
                 sh "rm -rf ${JOB_WORKSPACE}"
