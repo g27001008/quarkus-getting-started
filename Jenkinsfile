@@ -28,28 +28,25 @@ pipeline {
                 sh "mkdir -p ${JMETER_OUT_DIR}"
                 
                 script {                    
-                    testScenarios.eachWithIndex{ scenario, index -> 
+                    testScenarios.eachWithIndex { scenario, index -> 
                         index+=1
-                        resultFile = "${JMETER_OUT_DIR}/result-${index}.jtl" 
-                        reportDir = "${JMETER_OUT_DIR}/report-${index}"
-                        reportName = "TestPlanReport-${index}"
-
+                        resultFile = "${JMETER_OUT_DIR}/result-sce-${index}.jtl" 
+                        reportDir = "${JMETER_OUT_DIR}/dash-report-sce-${index}"
+                       
                         sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
-
-                        publishHTML target: [
-                            allowMissing: true,
-                            alwaysLinkToLastBuild: false,
-                            keepAll: true,
-                            reportDir: "${reportDir}",
-                            reportFiles: "index.html",
-                            reportName: "${reportName}"
-                        ]                            
+                        
+                        withCredentials([[
+                            $class: "AmazonWebServicesCredentialsBinding",
+                            credentialsId: "aws-s3-jenkins",
+                            accessKeyVariable: "AWS_ACCESS_KEY_ID",
+                            secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]]) {
+                                sh "aws s3 ls --region=us-east-1"
+                            }
+                        }                                     
                     }                    
                 }
                 
                 sh "rm -rf ${JOB_WORKSPACE}"
-                
-                sh "aws --version"
             }
         }
     }
