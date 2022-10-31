@@ -68,7 +68,7 @@ pipeline {
                             sh "aws s3 sync ${reportDir} ${AWS_S3_BUCKET}/${JOB_NAME}/${BUILD_NUMBER}-${index} --region=${AWS_REGION}"
                         }                         
                          
-                        sh "echo ${html} | aws s3 cp - ${AWS_S3_BUCKET}/${JOB_NAME}/index.html"
+                        sh "aws s3 cp ${JMETER_OUT_DIR}/index.html ${AWS_S3_BUCKET}/${JOB_NAME}"
                      }
                 }
                 
