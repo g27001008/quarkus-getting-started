@@ -48,6 +48,8 @@ pipeline {
                 }
                 
                 sh "rm -rf ${JOB_WORKSPACE}"
+                
+                sh "aws --version"
             }
         }
     }
