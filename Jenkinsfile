@@ -28,25 +28,25 @@ pipeline {
                 
                 sh "mkdir -p ${JMETER_OUT_DIR}"
                 
-                script {                    
-                    testScenarios.eachWithIndex { scenario, index -> 
-                        index+=1
-                        resultFile = "${JMETER_OUT_DIR}/result-sce-${index}.jtl" 
-                        reportDir = "${JMETER_OUT_DIR}/dash-report-sce-${index}"
-                       
-                        sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
-                        
-                        withCredentials([[
+                script {
+                     withCredentials([[
                             $class: "AmazonWebServicesCredentialsBinding",
                             credentialsId: "aws-s3-jenkins",
                             accessKeyVariable: "AWS_ACCESS_KEY_ID",
                             secretKeyVariable: "AWS_SECRET_ACCESS_KEY"]])
-                        {
-                            sh "echo $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY"
-                            sh "aws s3 rm $S3_BUCKET//$JOB_NAME --recursive --region=us-east-1"
-                            sh "echo 'hello world' | aws s3 cp - $S3_BUCKET//$JOB_NAME/file.txt"
-                        }                                                            
-                    }                    
+                     {
+                        sh "aws s3 rm ${S3_BUCKET}/${JOB_NAME} --recursive --region=us-east-1"
+                            
+                        testScenarios.eachWithIndex { scenario, index -> 
+                            index+=1
+                            resultFile = "${JMETER_OUT_DIR}/result-sce-${index}.jtl" 
+                            reportDir = "${JMETER_OUT_DIR}/dash-report-sce-${index}"
+
+                            sh "jmeter -JnoThreads=${scenario.noThreads} -n -t ${JMETER_TEST_PLAN} -l ${resultFile} -e -o ${reportDir}"
+                            
+                            sh "aws s3 cp ${reportDir} ${S3_BUCKET}/${JOB_NAME}/${BUILD_NUMBER}-${index}"
+                        }                    
+                     }
                 }
                 
                 sh "rm -rf ${JOB_WORKSPACE}"
