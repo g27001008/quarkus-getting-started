@@ -29,7 +29,7 @@ pipeline {
                 script { 
                     s3bucketRoute = "s3://${AWS_S3_BUCKET}"
                     
-                    sh "aws configure set default.region ${AWS_REGION}"
+                    sh "export AWS_DEFAULT_REGION=${AWS_REGION}"
                     
                     withCredentials([[
                         $class: "AmazonWebServicesCredentialsBinding",
