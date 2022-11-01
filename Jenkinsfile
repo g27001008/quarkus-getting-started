@@ -11,10 +11,7 @@ pipeline {
     stages {
         stage("Load Testing") {                    
             agent {
-                dockerfile {
-                    filename "Dockerfile"
-                    dir 'src/test/jmeter'       
-                }
+                docker { image 'gabvillacis93/jmeter:1.0' }
             }
             
             environment {
