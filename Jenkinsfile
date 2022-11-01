@@ -18,8 +18,8 @@ pipeline {
                 JMETER_TEST_PLAN = "src/test/jmeter/TestQuarkusGettingStarted.jmx"
                 JOB_WORKSPACE = "${WORKSPACE}/${BUILD_NUMBER}"
                 JMETER_OUT_DIR = "${JOB_WORKSPACE}/jmeter-outputs"
-                AWS_REGION = "us-east-1"
-                AWS_S3_BUCKET = "jmeter.reports"                
+                AWS_REGION = credentials("aws-bucket-region")
+                AWS_S3_BUCKET = credentials("aws-s3-bucket")
             }
             
             steps {               
