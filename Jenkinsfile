@@ -53,6 +53,12 @@ pipeline {
                                     <li>
                                         <a href="/${AWS_S3_BUCKET_NAME}/${JOB_NAME}/${BUILD_NUMBER}-1/index.html">jmeter-report-${BUILD_NUMBER}-1</a>
                                     </li>
+                                    <li>
+                                        <a href="/${AWS_S3_BUCKET_NAME}/${JOB_NAME}/${BUILD_NUMBER}-2/index.html">jmeter-report-${BUILD_NUMBER}-2</a>
+                                    </li>
+                                    <li>
+                                        <a href="/${AWS_S3_BUCKET_NAME}/${JOB_NAME}/${BUILD_NUMBER}-3/index.html">jmeter-report-${BUILD_NUMBER}-3</a>
+                                    </li>
                                 </ul>
                             </body>
                             </html>"""
