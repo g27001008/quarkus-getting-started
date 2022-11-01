@@ -22,7 +22,7 @@ pipeline {
                 JOB_WORKSPACE = "${WORKSPACE}/${BUILD_NUMBER}"
                 JMETER_OUT_DIR = "${JOB_WORKSPACE}/jmeter-outputs"
                 AWS_S3_BUCKET_NAME = "jmeter.reports"
-                AWS_S3_BUCKET_ROUTE = "s3://${$AWS_S3_BUCKET_NAME}"
+                AWS_S3_BUCKET_ROUTE = "s3://${AWS_S3_BUCKET_NAME}"
                 AWS_REGION = "us-east-1"
             }
             
